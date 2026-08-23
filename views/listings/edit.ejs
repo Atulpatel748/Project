@@ -1,0 +1,40 @@
+<% layout("/layouts/boilerplate")%>
+<div class="card">
+  <h3>Edit your Listing</h3>
+  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+    <input name="listing[title]" value="<%= listing.title %>" type="text" />
+
+    <textarea name="listing[description]"><%= listing.description %></textarea>
+
+    <input
+      name="listing[image][url]"
+      value="<%= listing.image && listing.image.url ? listing.image.url : '' %>"
+      type="text"
+      placeholder="Image URL"
+    />
+
+    <input
+      name="listing[price]"
+      value="<%= listing.price %>"
+      type="number"
+      min="0"
+    />
+
+    <input
+      name="listing[country]"
+      value="<%= listing.country %>"
+      type="text"
+    />
+
+    <input
+      name="listing[location]"
+      value="<%= listing.location %>"
+      type="text"
+    />
+
+    <button>Save</button>
+  </form>
+  <br />
+  <a href="/listings/<%= listing._id %>">Back to Listing</a>
+</div>
+

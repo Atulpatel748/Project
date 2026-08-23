@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h3>Create a New Listing</h3>
-    <form method="POST" action="/listings">
-      <input name="listing[title]" placeholder="enter title" type="text" />
-      <br /><br />
-      <textarea
-        name="listing[description]"
-        placeholder="enter description"
-      ></textarea>
-      <br /><br />
-      <input
-        name="listing[image]"
-        placeholder="enter image URL/Link"
-        type="text"
-      />
-      <br /><br />
-      <input name="listing[price]" placeholder="enter price" type="number" />
-      <br /><br />
-      <input name="listing[country]" placeholder="enter country" type="text" />
-      <br /><br />
-      <input
-        name="listing[location]"
-        placeholder="enter location"
-        type="text"
-      />
-      <br /><br />
-      <button>Save</button>
-    </form>
-  </body>
-</html>
+<% layout("/layouts/boilerplate")%>
+<div class="card">
+  <h3>Create a New Listing</h3>
+  <form method="POST" action="/listings">
+    <input name="listing[title]" placeholder="Enter title" type="text" />
 
+    <textarea
+      name="listing[description]"
+      placeholder="Enter description"
+    ></textarea>
+
+    <input
+      name="listing[image][url]"
+      placeholder="Enter image URL"
+      type="text"
+    />
+
+    <input
+      name="listing[price]"
+      placeholder="Enter price"
+      type="number"
+      min="0"
+    />
+
+    <input name="listing[country]" placeholder="Enter country" type="text" />
+
+    <input name="listing[location]" placeholder="Enter location" type="text" />
+
+    <button>Save</button>
+  </form>
+  <br />
+  <a href="/listings">Back to Listings</a>
+</div>
