@@ -16,13 +16,14 @@ main()
     console.log(err);
   });
 async function main() {
-  mongoose.connect(MONGO_URL);
+  await mongoose.connect(MONGO_URL);
 }
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public/css")));
+// Serve static assets from the `public` directory
+app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
@@ -31,28 +32,32 @@ app.get("/", (req, res) => {
 });
 
 app.get("/listings", async (req, res) => {
-  const allListing = await Listing.find({});
-  res.render("listings/index.ejs", { allListing });
+  const allListings = await Listing.find({});
+  res.render("listings/index", { allListings });
 });
 app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
+  res.render("listings/new");
 });
 app.get("/listings/:id", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
+  res.render("listings/show", { listing });
 });
 
-app.post("/listings", async (req, res) => {
-  const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
+app.post("/listings", async (req, res , next) => {
+  try {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("listings/edit.ejs", { listing });
+  res.render("listings/edit", { listing });
 });
 
 app.put("/listings/:id", async (req, res) => {
@@ -81,6 +86,10 @@ app.delete("/listings/:id", async (req, res) => {
 //   console.log("sample was saved");
 //   res.send("Successful testing");
 // });
+
+app.use((err, req, res, next) => {
+  res.send("something went wrong!");
+});
 
 app.listen(8080, () => {
   console.log("Server is listening to port 8080");
