@@ -31,6 +31,9 @@ const { listingSchema } = require("./schema.js");
 // MongoDB connection URL
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
+// Import Review model
+const Review = require("./models/review");
+
 // Connect to MongoDB
 main()
   .then(() => {
@@ -206,6 +209,36 @@ app.delete(
   }),
 );
 
+// -------------------- REVIEWS ROUTES --------------------
+
+// CREATE REVIEW
+// POST /listings/:id/reviews
+app.post(
+  "/listings/:id/reviews",
+  wrapAsync(async (req, res) => {
+    // Get listing ID from URL
+    const { id } = req.params;
+
+    // Find the listing
+    const listing = await Listing.findById(id);
+
+    // Create a new Review document
+    const review = new Review(req.body.review);
+
+    // Save the review
+    await review.save();
+
+    // Add review reference to the listing
+    listing.reviews.push(review);
+
+    // Save updated listing
+    await listing.save();
+
+    // Redirect to listing page
+    res.redirect(`/listings/${id}`);
+  }),
+);
+
 // -------------------- TEST ROUTE --------------------
 
 // This route was used to test whether
@@ -236,8 +269,8 @@ app.delete(
 
 // This route will catch all requests that don't match any of the above routes
 // and will create a new ExpressError with a 404 status code
-app.all("/{*splat}", (req, res, next) => {
-  next(new ExpressError(404, "Page Not Found"));
+app.all('*', (req, res, next) => {
+  next(new ExpressError(404, 'Page Not Found'));
 });
 
 // This middleware handles errors passed using next(err)
