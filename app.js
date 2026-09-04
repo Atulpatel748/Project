@@ -126,8 +126,8 @@ app.get(
     // Get the id from the URL
     let { id } = req.params;
 
-    // Find the listing with this MongoDB ID
-    const listing = await Listing.findById(id);
+    // Find the listing with this MongoDB ID and populate its reviews
+    const listing = await Listing.findById(id).populate('reviews');
 
     // Render show.ejs and pass the listing
     res.render("listings/show", { listing });
@@ -269,7 +269,7 @@ app.post(
 
 // This route will catch all requests that don't match any of the above routes
 // and will create a new ExpressError with a 404 status code
-app.all('*', (req, res, next) => {
+app.all("/{*splat}", (req, res, next) => {
   next(new ExpressError(404, 'Page Not Found'));
 });
 
