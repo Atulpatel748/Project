@@ -25,8 +25,8 @@ const wrapAsync = require("./utils/wrapAsync.js");
 // Custom Express error class
 const ExpressError = require("./utils/ExpressError.js");
 
-// Import Joi schema for validating listing data
-const { listingSchema } = require("./schema.js");
+// Import Joi schemas for validating listing and review data
+const { listingSchema, reviewSchema } = require("./schema.js");
 
 // MongoDB connection URL
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
@@ -213,8 +213,18 @@ app.delete(
 
 // CREATE REVIEW
 // POST /listings/:id/reviews
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(",");
+    throw new ExpressError(400, msg);
+  }
+  next();
+};
+
 app.post(
   "/listings/:id/reviews",
+  validateReview,
   wrapAsync(async (req, res) => {
     // Get listing ID from URL
     const { id } = req.params;
