@@ -127,7 +127,7 @@ app.get(
     let { id } = req.params;
 
     // Find the listing with this MongoDB ID and populate its reviews
-    const listing = await Listing.findById(id).populate('reviews');
+    const listing = await Listing.findById(id).populate("reviews");
 
     // Render show.ejs and pass the listing
     res.render("listings/show", { listing });
@@ -216,7 +216,7 @@ app.delete(
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
-    const msg = error.details.map(el => el.message).join(",");
+    const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(400, msg);
   }
   next();
@@ -245,6 +245,23 @@ app.post(
     await listing.save();
 
     // Redirect to listing page
+    res.redirect(`/listings/${id}`);
+  }),
+);
+
+// DELETE REVIEW
+// DELETE /listings/:id/reviews/:reviewId
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+
+    // Find the listing and remove the review
+    const listing = await Listing.findById(id);
+    listing.reviews.pull({ _id: reviewId });
+    await listing.save();
+
+    // Redirect to the listing page
     res.redirect(`/listings/${id}`);
   }),
 );
@@ -280,7 +297,7 @@ app.post(
 // This route will catch all requests that don't match any of the above routes
 // and will create a new ExpressError with a 404 status code
 app.all("/{*splat}", (req, res, next) => {
-  next(new ExpressError(404, 'Page Not Found'));
+  next(new ExpressError(404, "Page Not Found"));
 });
 
 // This middleware handles errors passed using next(err)

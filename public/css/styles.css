@@ -251,3 +251,485 @@ footer a:hover {
   color: var(--brand-500) !important;
   text-decoration: none;
 }
+
+
+
+
+/* =========================================================
+   SHOW LISTING PAGE
+   ========================================================= */
+
+.show-container {
+  max-width: 1050px;
+  margin: 40px auto 70px;
+}
+
+
+/* Main Card */
+
+.listing-show-card {
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eee;
+}
+
+
+/* =========================================================
+   HERO IMAGE
+   ========================================================= */
+
+.listing-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+.listing-show-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.listing-image-wrapper:hover .listing-show-image {
+  transform: scale(1.03);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65),
+    rgba(0, 0, 0, 0.05) 60%,
+    transparent
+  );
+}
+
+.listing-image-title {
+  position: absolute;
+  left: 35px;
+  bottom: 30px;
+  color: #fff;
+}
+
+.listing-image-title h1 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+
+/* =========================================================
+   LISTING DETAILS
+   ========================================================= */
+
+.listing-details {
+  padding: 35px;
+}
+
+.listing-description h3 {
+  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.listing-description p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   INFO BOXES
+   ========================================================= */
+
+.listing-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: #f8f9fa;
+  border-radius: 14px;
+  border: 1px solid #eee;
+}
+
+.info-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.info-box span {
+  display: block;
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.info-box strong {
+  display: block;
+  font-size: 16px;
+  color: #222;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.listing-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.listing-actions form {
+  margin: 0;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  color: #0d6efd;
+  background: #eef5ff;
+  border: 1px solid #cfe2ff;
+}
+
+.btn-edit:hover {
+  background: #0d6efd;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  color: #dc3545;
+  background: #fff0f1;
+  border: 1px solid #ffd1d5;
+}
+
+.btn-delete:hover {
+  background: #dc3545;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-back {
+  color: #555;
+  background: transparent;
+  margin-left: auto;
+}
+
+.btn-back:hover {
+  color: #111;
+}
+
+
+/* =========================================================
+   REVIEW SECTION
+   ========================================================= */
+
+.reviews-section {
+  border-top: 1px solid #eee;
+  padding: 35px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   REVIEW FORM
+   ========================================================= */
+
+.review-form {
+  max-width: 700px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+}
+
+.submit-review-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  background: #0d6efd;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-review-btn:hover {
+  background: #0b5ed7;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.25);
+}
+
+
+/* =========================================================
+   EXISTING REVIEWS
+   ========================================================= */
+
+.existing-reviews {
+  padding-top: 35px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.review-card {
+  padding: 22px;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.review-card:hover {
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.review-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9ecef;
+  color: #495057;
+  font-weight: 700;
+}
+
+.review-stars {
+  margin-top: 3px;
+}
+
+.star {
+  color: #bbb;
+  font-size: 15px;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.review-text {
+  margin: 0;
+  color: #555;
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   NO REVIEWS
+   ========================================================= */
+
+.no-reviews {
+  text-align: center;
+  padding: 45px 20px;
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 15px;
+}
+
+.no-review-icon {
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+.no-reviews h3 {
+  margin: 0 0 7px;
+  font-size: 18px;
+}
+
+.no-reviews p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .show-container {
+    margin: 20px auto 40px;
+    padding: 0 12px;
+  }
+
+  .listing-show-card {
+    border-radius: 15px;
+  }
+
+  .listing-image-wrapper {
+    height: 330px;
+  }
+
+  .listing-image-title {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .listing-image-title h1 {
+    font-size: 28px;
+  }
+
+  .listing-details,
+  .reviews-section {
+    padding: 25px 20px;
+  }
+
+  .listing-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-edit,
+  .btn-delete,
+  .btn-back {
+    width: 100%;
+  }
+
+  .btn-back {
+    margin-left: 0;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .listing-image-wrapper {
+    height: 270px;
+  }
+
+  .listing-image-title h1 {
+    font-size: 23px;
+  }
+
+  .listing-details,
+  .reviews-section {
+    padding: 20px 16px;
+  }
+
+  .section-heading h2 {
+    font-size: 21px;
+  }
+
+  .info-box {
+    padding: 14px;
+  }
+
+}

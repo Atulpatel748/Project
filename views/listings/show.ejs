@@ -143,8 +143,9 @@
 
       <form
         method="POST"
-        action="/listings/<%= listing._id %>/reviews"
+        action="/listings/<%= listing._id %>/reviews" novalidate
         class="review-form"
+        class="needs-validation"
       >
 
         <!-- Review -->
@@ -161,6 +162,9 @@
             placeholder="Tell us about your experience..."
             required
           ></textarea>
+          <div class="invalid-feedback">
+            Please enter your review.
+          </div>
 
         </div>
 
@@ -268,10 +272,15 @@
               <p class="review-text">
                 <%= review.comment %>
               </p>
+              <form class="mb-3" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                <button type="submit">delete</button>
+              </form>
 
             </div>
+           
 
           <% }) %>
+          
 
         </div>
 
@@ -288,6 +297,7 @@
         </div>
 
       <% } %>
+      
 
     </div>
 

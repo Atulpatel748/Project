@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Define the Review schema
 const reviewSchema = new Schema({
   rating: {
     type: Number,
