@@ -1,5 +1,3 @@
-// Application entry point and route definitions
-
 const express = require("express");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -7,6 +5,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const ExpressError = require("./utils/ExpressError.js");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
@@ -46,12 +46,31 @@ app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 
+const sessionConfig = {
+  secret: "thisshouldbeabettersecret!",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+  },
+};
+
 // --------------------------------------------------
 // Home Route
 // --------------------------------------------------
-
 app.get("/", (req, res) => {
   res.send("Hi, I am Groot");
+});
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
 });
 
 // --------------------------------------------------
