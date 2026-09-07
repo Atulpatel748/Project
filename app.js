@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 
 // Review routes
-app.use("/listings", reviewRouter);
+app.use("/listings/:id/reviews", reviewRouter);
 
 // --------------------------------------------------
 // Global 404 Handler
@@ -97,6 +97,8 @@ app.all("/{*splat}", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
+
+  console.error(err);
 
   res.status(statusCode).render("error.ejs", {
     message,
