@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
 const sessionConfig = {
-  secret: "thisshouldbeabettersecret!",
+  secret: process.env.SESSION_SECRET || "thisshouldbeabettersecret!",
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -91,8 +91,23 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
   console.error(err);
-  res.status(statusCode).render("error.ejs", { message, err });
+  const safeErr = process.env.NODE_ENV === 'production' ? {} : err;
+  res.status(statusCode).render("error.ejs", { message, err: safeErr });
 });
 
 // Start
-app.listen(3000, () => console.log("Server listening on port 3000"));
+const server = app.listen(3000, () => console.log("Server listening on port 3000"));
+
+// Graceful shutdown on uncaught errors
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+  server.close(() => {
+    mongoose.connection.close(false, () => process.exit(1));
+  });
+});
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  server.close(() => {
+    mongoose.connection.close(false, () => process.exit(1));
+  });
+});
