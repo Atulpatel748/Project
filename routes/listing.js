@@ -8,9 +8,7 @@ const Listing = require("../models/listing");
 
 const ExpressError = require("../utils/ExpressError.js");
 
-// --------------------------------------------------
-// Validation Middleware
-// --------------------------------------------------
+// Validation
 
 const validateListing = (req, res, next) => {
   const { error } = listingSchema.validate(req.body);
@@ -24,11 +22,9 @@ const validateListing = (req, res, next) => {
   next();
 };
 
-// --------------------------------------------------
-// Listings Routes
-// --------------------------------------------------
+// Listings
 
-// INDEX - Show all listings
+// INDEX
 router.get(
   "/",
   wrapAsync(async (req, res) => {
@@ -40,7 +36,7 @@ router.get(
   }),
 );
 
-// NEW - Show form to create a listing
+// NEW
 router.get(
   "/new",
   wrapAsync(async (req, res) => {
@@ -48,8 +44,7 @@ router.get(
   }),
 );
 
-// EDIT - Show edit form
-// IMPORTANT: This must come BEFORE /:id
+// EDIT (before :id)
 router.get(
   "/:id/edit",
   wrapAsync(async (req, res) => {
@@ -68,7 +63,7 @@ router.get(
   }),
 );
 
-// SHOW - Show one listing
+// SHOW
 router.get(
   "/:id",
   wrapAsync(async (req, res) => {
@@ -86,7 +81,7 @@ router.get(
   }),
 );
 
-// CREATE - Create a new listing
+// CREATE
 router.post(
   "/",
   validateListing,
@@ -100,7 +95,7 @@ router.post(
   }),
 );
 
-// UPDATE - Update listing
+// UPDATE
 router.put(
   "/:id",
   validateListing,
@@ -126,7 +121,7 @@ router.put(
   }),
 );
 
-// DELETE - Delete listing
+// DELETE
 router.delete(
   "/:id",
   wrapAsync(async (req, res) => {

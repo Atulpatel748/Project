@@ -1,4 +1,5 @@
 ﻿const fs = require('fs');
+// Script
 const path = require('path');
 function tryParse(json) {
   try { return {ok: true, obj: JSON.parse(json)} } catch (e) { return {ok: false, err: e} }

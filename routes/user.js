@@ -4,6 +4,7 @@ const User = require("../models/user");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
 
+// Users
 const router = express.Router();
 
 router.get("/signup", (req, res) => {

@@ -9,9 +9,7 @@ const Review = require("../models/review");
 
 const ExpressError = require("../utils/ExpressError.js");
 
-// --------------------------------------------------
-// Validation Middleware
-// --------------------------------------------------
+// Validation
 
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
@@ -25,11 +23,9 @@ const validateReview = (req, res, next) => {
   next();
 };
 
-// --------------------------------------------------
-// Review Routes
-// --------------------------------------------------
+// Reviews
 
-// CREATE - Add review to listing
+// CREATE
 router.post(
   "/:id/reviews",
   validateReview,
@@ -55,7 +51,7 @@ router.post(
   }),
 );
 
-// DELETE - Delete review
+// DELETE
 router.delete(
   "/:id/reviews/:reviewId",
   wrapAsync(async (req, res) => {
