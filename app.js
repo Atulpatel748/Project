@@ -4,10 +4,6 @@ const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const path = require("path");
 
-const util = require("util");
-if (util.isArray !== Array.isArray) {
-  util.isArray = Array.isArray;
-}
 
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
