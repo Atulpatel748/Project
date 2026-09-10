@@ -119,7 +119,7 @@ app.all("/{*splat}", (req, res, next) => {
 // Global Error Handler
 // --------------------------------------------------
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
 
   console.error(err);
