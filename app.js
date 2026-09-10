@@ -24,36 +24,19 @@ const app = express();
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
-// --------------------------------------------------
-// Connect to MongoDB
-// --------------------------------------------------
-
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
+// DB
+main().then(() => console.log("connected to DB")).catch(console.log);
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
 
-// --------------------------------------------------
-// Express Configuration
-// --------------------------------------------------
-
+// App config
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(methodOverride("_method"));
-
-app.engine("ejs", ejsMate);
 
 const sessionConfig = {
   secret: "thisshouldbeabettersecret!",
@@ -66,12 +49,6 @@ const sessionConfig = {
   },
 };
 
-// --------------------------------------------------
-// Home Route
-// --------------------------------------------------
-app.get("/", (req, res) => {
-  res.send("Hi, I am Groot");
-});
 
 app.use(session(sessionConfig));
 app.use(flash());
@@ -88,52 +65,34 @@ app.use((req, res, next) => {
   next();
 });
 
+// Home
+app.get("/", (req, res) => res.send("Hi, I am Groot"));
+
 // app.get("/fakeUser", async (req, res) => {
 //   const user = new User({ email: "fake@example.com", username: "demoUser" });
 //   let registeredUser = await User.register(user, "hello world"); // Register the user with a password
 //   res.send("Fake user created!");
 // });
 
-// --------------------------------------------------
 // Routes
-// --------------------------------------------------
-
-// Listing routes
 app.use("/listings", listingRouter);
-
-// Review routes
 app.use("/listings/:id/reviews", reviewRouter);
-
-// User routes
 app.use("/", userRouter);
 
 // --------------------------------------------------
 // Global 404 Handler
 // --------------------------------------------------
 
-app.all("/{*splat}", (req, res, next) => {
+app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
-// --------------------------------------------------
-// Global Error Handler
-// --------------------------------------------------
-
-app.use((err, req, res) => {
+// Error handler
+app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
-
   console.error(err);
-
-  res.status(statusCode).render("error.ejs", {
-    message,
-    err,
-  });
+  res.status(statusCode).render("error.ejs", { message, err });
 });
 
-// --------------------------------------------------
-// Start Server
-// --------------------------------------------------
-
-app.listen(3000, () => {
-  console.log("Server is listening to port 3000");
-});
+// Start
+app.listen(3000, () => console.log("Server listening on port 3000"));
