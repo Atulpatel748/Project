@@ -64,11 +64,6 @@ app.use((req, res, next) => {
 // Home
 app.get("/", (req, res) => res.send("Hi, I am Groot"));
 
-// app.get("/fakeUser", async (req, res) => {
-//   const user = new User({ email: "fake@example.com", username: "demoUser" });
-//   let registeredUser = await User.register(user, "hello world"); // Register the user with a password
-//   res.send("Fake user created!");
-// });
 
 // Routes
 app.use("/listings", listingRouter);

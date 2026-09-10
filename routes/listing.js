@@ -133,7 +133,6 @@ router.delete(
       throw new ExpressError(404, "Listing not found");
     }
 
-    console.log("Deleted listing:", deletedListing);
     req.flash("success", "Successfully deleted the listing!");
 
     res.redirect("/listings");
