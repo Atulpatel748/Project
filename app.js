@@ -83,7 +83,7 @@ app.use("/", userRouter);
 // Global 404 Handler
 // --------------------------------------------------
 
-app.all("*", (req, res, next) => {
+app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
