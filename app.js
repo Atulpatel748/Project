@@ -3,7 +3,11 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const path = require("path");
+const util = require("util");
 
+if (util.isArray !== Array.isArray) {
+  util.isArray = Array.isArray;
+}
 
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
@@ -21,7 +25,10 @@ const app = express();
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
 // DB
-main().then(() => console.log("connected to DB")).catch(console.error);
+main()
+  .then(() => console.log("connected to DB"))
+  .catch(console.log);
+
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
@@ -30,75 +37,73 @@ async function main() {
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 
+// Session
 const sessionConfig = {
-  secret: process.env.SESSION_SECRET || "thisshouldbeabettersecret!",
+  secret: "thisshouldbeabettersecret!",
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
 
-
 app.use(session(sessionConfig));
+
+// Flash
 app.use(flash());
 
+// Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new LocalStrategy(User.authenticate()));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Flash messages
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
   next();
 });
 
 // Home
-app.get("/", (req, res) => res.send("Hi, I am Groot"));
-
+app.get("/", (req, res) => {
+  res.send("Hi, I am Groot");
+});
 
 // Routes
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-// --------------------------------------------------
-// Global 404 Handler
-// --------------------------------------------------
-
-app.use((req, res, next) => {
+// 404 Route
+app.all("/{*splat}", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
-// Error handler
-app.use((err, req, res, next) => {
+// Error Handler
+app.use((err, req, res) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
+
   console.error(err);
-  const safeErr = process.env.NODE_ENV === 'production' ? {} : err;
-  res.status(statusCode).render("error.ejs", { message, err: safeErr });
-});
 
-// Start
-const server = app.listen(3000, () => console.log("Server listening on port 3000"));
-
-// Graceful shutdown on uncaught errors
-process.on('unhandledRejection', (reason) => {
-  console.error('Unhandled Rejection:', reason);
-  server.close(() => {
-    mongoose.connection.close(false, () => process.exit(1));
+  res.status(statusCode).render("error.ejs", {
+    message,
+    err,
   });
 });
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
-  server.close(() => {
-    mongoose.connection.close(false, () => process.exit(1));
-  });
+
+// Server
+app.listen(3000, () => {
+  console.log("Server is listening to port 3000");
 });

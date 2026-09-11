@@ -42,7 +42,9 @@
 
       <div class="listing-description">
         <h3>About this place</h3>
-
+        
+          <p><strong>Owner:</strong>
+          <%= listing.owner && listing.owner.username ? listing.owner.username : "Unknown" %></p>
         <p>
           <%= listing.description %>
         </p>
@@ -59,10 +61,12 @@
             <span>Price</span>
             <strong>
               <%= listing.price != null
+              
                 ? "₹" + Number(listing.price).toLocaleString("en-IN")
                 : "N/A"
               %>
             </strong>
+      
           </div>
         </div>
 
@@ -143,9 +147,9 @@
 
       <form
         method="POST"
-        action="/listings/<%= listing._id %>/reviews" novalidate
-        class="review-form"
-        class="needs-validation"
+        action="/listings/<%= listing._id %>/reviews"
+        novalidate
+        class="review-form needs-validation"
       >
 
         <!-- Review -->
