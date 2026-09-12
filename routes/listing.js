@@ -1,29 +1,12 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const { isLoggedIn, isListingOwner } = require("../middleware.js");
-
+const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.js");
+const ExpressError = require("../utils/ExpressError.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const { listingSchema } = require("../schema.js");
-
 const Listing = require("../models/listing");
 
-const ExpressError = require("../utils/ExpressError.js");
 
-// Validation
 
-const validateListing = (req, res, next) => {
-  const { error } = listingSchema.validate(req.body);
-
-  if (error) {
-    const errMsg = error.details.map((el) => el.message).join(",");
-
-    throw new ExpressError(400, errMsg);
-  }
-
-  next();
-};
-
-// Listings
 
 // INDEX
 router.get(

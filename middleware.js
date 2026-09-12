@@ -1,4 +1,6 @@
-const Listing = require('./models/listing');
+const Listing = require("./models/listing");
+const ExpressError = require("./utils/ExpressError.js");
+const { reviewSchema, listingSchema } = require("./schema.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   console.log("REQ.USER...", req.user);
@@ -28,5 +30,30 @@ module.exports.isListingOwner = async (req, res, next) => {
     req.flash("error", "You do not have permission to modify this listing!");
     return res.redirect(`/listings/${id}`);
   }
+  next();
+};
+
+
+module.exports.validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+
+    throw new ExpressError(400, msg);
+  }
+
+  next();
+};
+
+module.exports.validateListing = (req, res, next) => {
+  const { error } = listingSchema.validate(req.body);
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+
+    throw new ExpressError(400, msg);
+  }
+
   next();
 };
