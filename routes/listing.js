@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.js");
+const {
+  isLoggedIn,
+  isListingOwner,
+  validateListing,
+} = require("../middleware.js");
 const ExpressError = require("../utils/ExpressError.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing");
-
-
-
+const { authorize } = require("passport");
 
 // INDEX
 router.get(
@@ -57,7 +59,7 @@ router.get(
     let { id } = req.params;
 
     const listing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({ path: "reviews", populate: { path: "author" } })
       .populate("owner");
     if (!listing) {
       req.flash("error", "Listing does not exist!");

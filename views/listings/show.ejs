@@ -98,6 +98,7 @@
 
 
       <!-- Actions -->
+      <% if (currentUser && listing.owner && listing.owner._id && listing.owner._id.equals(currentUser._id)) { %>
       <div class="listing-actions">
 
         <a
@@ -130,11 +131,11 @@
         </a>
 
       </div>
-
+      <% } %>
     </div>
 
-
     <!-- Review Section -->
+    <% if (currentUser && currentUser._id) { %>
     <div class="reviews-section">
 
       <div class="section-heading">
@@ -213,6 +214,7 @@
       </form>
 
     </div>
+    <% } %>
 
 
     <!-- Existing Reviews -->
@@ -252,7 +254,7 @@
                 </div>
 
                 <div>
-                  <strong>Guest</strong>
+                  <strong>@<%= review.author.username || "Guest" %></strong>
 
                   <div class="review-stars">
 
