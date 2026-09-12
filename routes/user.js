@@ -25,7 +25,7 @@ router.post(
           return next(err);
         }
 
-        req.flash("success", "Welcome to Yelp Camp!");
+        req.flash("success", "Welcome to Wonderlust!");
         return res.redirect("/listings");
       });
     } catch (e) {
@@ -47,7 +47,7 @@ router.post(
     failureRedirect: "/login",
   }),
   async (req, res) => {
-    req.flash("success", "Welcome to Yelp Camp!");
+    req.flash("success", "Welcome to Wonderlust!");
     res.redirect(res.locals.redirectTo || "/listings");
   },
 );
