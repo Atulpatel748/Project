@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, isListingOwner } = require("../middleware.js");
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema } = require("../schema.js");
@@ -50,6 +50,7 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isListingOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
 
@@ -108,11 +109,15 @@ router.post(
 router.put(
   "/:id",
   isLoggedIn,
+  isListingOwner,
   validateListing,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
 
-    const listing = await Listing.findByIdAndUpdate(
+    // Ownership checked by isListingOwner middleware
+    let listing = await Listing.findById(id);
+
+    const updatedListing = await Listing.findByIdAndUpdate(
       id,
       {
         ...req.body.listing,
@@ -123,7 +128,7 @@ router.put(
       },
     );
 
-    if (!listing) {
+    if (!updatedListing) {
       throw new ExpressError(404, "Listing not found");
     }
     req.flash("success", "Successfully updated the listing!");
@@ -135,6 +140,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isListingOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
 
