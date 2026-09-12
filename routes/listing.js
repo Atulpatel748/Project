@@ -115,7 +115,6 @@ router.put(
     const { id } = req.params;
 
     // Ownership checked by isListingOwner middleware
-    let listing = await Listing.findById(id);
 
     const updatedListing = await Listing.findByIdAndUpdate(
       id,
