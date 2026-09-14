@@ -14,45 +14,6 @@
     }, false);
   });
 
-  // Review star rating interaction
-  const reviewForms = document.querySelectorAll(".review-form");
-  reviewForms.forEach((reviewForm) => {
-    const hiddenRating = reviewForm.querySelector("#rating");
-    if (!hiddenRating) return;
-
-    const starButtons = [...reviewForm.querySelectorAll(".star-rating-btn")];
-    let selectedValue = Number(hiddenRating.value || 0);
-
-    const updateStars = (value) => {
-      const activeValue = Number(value || 0);
-
-      starButtons.forEach((button) => {
-        const starValue = Number(button.dataset.value);
-        const isSelected = starValue <= activeValue;
-        button.classList.toggle("filled", isSelected);
-        button.setAttribute("aria-pressed", String(isSelected));
-      });
-    };
-
-    starButtons.forEach((button) => {
-      button.addEventListener("mouseenter", () => {
-        updateStars(button.dataset.value);
-      });
-
-      button.addEventListener("mouseleave", () => {
-        updateStars(selectedValue);
-      });
-
-      button.addEventListener("click", () => {
-        selectedValue = Number(button.dataset.value);
-        hiddenRating.value = selectedValue;
-        updateStars(selectedValue);
-      });
-    });
-
-    updateStars(selectedValue);
-  });
-
   // Auto-dismiss and hover-pause for Bootstrap alerts
   document.addEventListener("DOMContentLoaded", () => {
     const ALERT_AUTO_DISMISS_MS = 5000;
