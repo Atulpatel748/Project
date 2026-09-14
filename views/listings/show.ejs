@@ -14,6 +14,12 @@
       Math.floor(Math.random() * _placeholders.length)
     ];
   }
+
+  const reviewCount = listing.reviews ? listing.reviews.length : 0;
+  const avgRating = reviewCount
+    ? listing.reviews.reduce((sum, review) => sum + (Number(review.rating) || 0), 0) / reviewCount
+    : 0;
+  const roundedRating = reviewCount ? Math.round(avgRating) : 0;
 %>
 
 <div class="container show-container">
@@ -175,33 +181,27 @@
 
 
         <!-- Rating -->
-        <div class="form-group">
-
-          <label for="rating">
-            Rating
-          </label>
-
-          <select
-            id="rating"
-            name="review[rating]"
-            required
-          >
-
-            <option value="" disabled selected>
-              Select your rating
-            </option>
-
+        <div class="form-group rating-form-group">
+          <div class="star-rating" role="radiogroup" aria-label="Basic rating">
             <% for (let i = 1; i <= 5; i++) { %>
-
-              <option value="<%= i %>">
-                <%= i %> Star<%= i > 1 ? "s" : "" %>
-              </option>
-
+              <button
+                type="button"
+                class="star-rating-btn"
+                data-value="<%= i %>"
+                aria-label="<%= i %> star<%= i > 1 ? "s" : "" %>"
+                aria-pressed="false"
+              >
+                ★
+              </button>
             <% } %>
+            <input type="hidden" id="rating" name="review[rating]" required />
+          </div>
 
-          </select>
+          <div class="invalid-feedback">
+            Please select a rating.
+          </div>
 
-        </div>
+        </div><br>
 
 
         <button
@@ -217,6 +217,7 @@
     <% } %>
 
 
+
     <!-- Existing Reviews -->
     <div class="reviews-section existing-reviews">
 
@@ -224,7 +225,7 @@
 
         <div>
           <h2>Guest Reviews</h2>
-
+ 
           <p>
             <% if (listing.reviews && listing.reviews.length > 0) { %>
               <%= listing.reviews.length %>

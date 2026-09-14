@@ -1,19 +1,23 @@
 <div id="flash-container" aria-live="polite" aria-atomic="true">
-  <% if (success && success.length) { %>
-    
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <% const successMessages = Array.isArray(success) ? success : [success].filter(Boolean); %>
+  <% successMessages.forEach((message) => { %>
+    <div class="flash-alert alert flash-alert-success alert-dismissible fade show" role="alert">
+      <div class="flash-message-content">
+        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+        <span><%= message %></span>
       </div>
-    
-  <% } %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }); %>
 
-  <% if (error && error.length) { %>
-    
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <% const errorMessages = Array.isArray(error) ? error : [error].filter(Boolean); %>
+  <% errorMessages.forEach((message) => { %>
+    <div class="flash-alert alert flash-alert-danger alert-dismissible fade show" role="alert">
+      <div class="flash-message-content">
+        <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+        <span><%= message %></span>
       </div>
-    
-  <% } %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }); %>
 </div>

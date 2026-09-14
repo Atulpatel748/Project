@@ -14,14 +14,70 @@
     }, false);
   });
 
+  // Review star rating interaction
+  const reviewForms = document.querySelectorAll(".review-form");
+  reviewForms.forEach((reviewForm) => {
+    const hiddenRating = reviewForm.querySelector("#rating");
+    if (!hiddenRating) return;
+
+    const starButtons = [...reviewForm.querySelectorAll(".star-rating-btn")];
+    let selectedValue = Number(hiddenRating.value || 0);
+
+    const updateStars = (value) => {
+      const activeValue = Number(value || 0);
+
+      starButtons.forEach((button) => {
+        const starValue = Number(button.dataset.value);
+        const isSelected = starValue <= activeValue;
+        button.classList.toggle("filled", isSelected);
+        button.setAttribute("aria-pressed", String(isSelected));
+      });
+    };
+
+    starButtons.forEach((button) => {
+      button.addEventListener("mouseenter", () => {
+        updateStars(button.dataset.value);
+      });
+
+      button.addEventListener("mouseleave", () => {
+        updateStars(selectedValue);
+      });
+
+      button.addEventListener("click", () => {
+        selectedValue = Number(button.dataset.value);
+        hiddenRating.value = selectedValue;
+        updateStars(selectedValue);
+      });
+    });
+
+    updateStars(selectedValue);
+  });
+
   // Auto-dismiss and hover-pause for Bootstrap alerts
   document.addEventListener("DOMContentLoaded", () => {
     const ALERT_AUTO_DISMISS_MS = 5000;
-    document.querySelectorAll("#flash-container .alert").forEach((alertEl) => {
-      // ensure fade/show classes for smooth transition
-      if (!alertEl.classList.contains('fade')) {
-        alertEl.classList.add('fade', 'show');
+
+    document.addEventListener("click", (event) => {
+      const closeButton = event.target.closest("[data-bs-dismiss='alert']");
+      if (!closeButton) return;
+
+      const alertEl = closeButton.closest(".flash-alert");
+      if (!alertEl) return;
+
+      if (window.bootstrap && bootstrap.Alert) {
+        const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+        bootstrapAlert.close();
+      } else {
+        alertEl.classList.remove("show");
+        setTimeout(() => alertEl.remove(), 150);
       }
+    });
+
+    document.querySelectorAll("#flash-container .flash-alert, #flash-container .alert").forEach((alertEl) => {
+      if (!alertEl.classList.contains("fade")) {
+        alertEl.classList.add("fade", "show");
+      }
+
       let timeoutId;
       let start = Date.now();
       let remaining = ALERT_AUTO_DISMISS_MS;
@@ -44,8 +100,8 @@
         }
       };
 
-      alertEl.addEventListener('mouseenter', clearTimer);
-      alertEl.addEventListener('mouseleave', () => {
+      alertEl.addEventListener("mouseenter", clearTimer);
+      alertEl.addEventListener("mouseleave", () => {
         start = Date.now();
         startTimer();
       });
