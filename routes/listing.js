@@ -11,8 +11,11 @@ const Listing = require("../models/listing");
 const { authorize } = require("passport");
 const listingController = require("../controllers/listingController");
 
-// INDEX
-router.get("/", wrapAsync(listingController.index));
+// INDEX + CREATE
+router
+  .route("/")
+  .get(wrapAsync(listingController.index))
+  .post(isLoggedIn, validateListing, wrapAsync(listingController.create));
 
 // NEW
 router.get("/new", isLoggedIn, wrapAsync(listingController.newForm));
@@ -25,32 +28,11 @@ router.get(
   wrapAsync(listingController.editForm),
 );
 
-// SHOW
-router.get("/:id", wrapAsync(listingController.show));
-
-// CREATE
-router.post(
-  "/",
-  isLoggedIn,
-  validateListing,
-  wrapAsync(listingController.create),
-);
-
-// UPDATE
-router.put(
-  "/:id",
-  isLoggedIn,
-  isListingOwner,
-  validateListing,
-  wrapAsync(listingController.update),
-);
-
-// DELETE
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isListingOwner,
-  wrapAsync(listingController.deleteListing),
-);
+// SHOW, UPDATE, DELETE
+router
+  .route("/:id")
+  .get(wrapAsync(listingController.show))
+  .put(isLoggedIn, isListingOwner, validateListing, wrapAsync(listingController.update))
+  .delete(isLoggedIn, isListingOwner, wrapAsync(listingController.deleteListing));
 
 module.exports = router;
