@@ -806,106 +806,120 @@ footer a:hover {
 /* Flash container styles: center top, stack alerts nicely */
 #flash-container {
   position: fixed;
-  top: 3.9rem;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1080;
-  width: min(560px, calc(100vw - 2rem));
+  width: 540px;
+  max-width: calc(100vw - 22px);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0.6rem;
   pointer-events: none;
 }
+
 #flash-container .flash-alert {
   pointer-events: auto;
   margin: 0;
   width: 100%;
   border-radius: 999px;
-  padding: 0.85rem 0.9rem 0.85rem 0.8rem;
+  padding: 11px 12px 11px 11px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.8rem;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
-  border: 1px solid rgba(122, 177, 157, 0.88);
+  gap: 0.7rem;
+  box-shadow: 0 8px 18px rgba(22, 43, 33, 0.08);
+  border: 1px solid rgba(118, 177, 144, 0.9);
+  background: rgba(219, 246, 229, 0.98);
+  color: #1a3d2d;
 }
+
 #flash-container .flash-alert-success {
-  background: rgba(219, 247, 236, 0.96);
-  color: #1f3b2f;
+  background: rgba(219, 246, 229, 0.98);
+  border-color: rgba(118, 177, 144, 0.9);
+  color: #1a3d2d;
 }
+
 #flash-container .flash-alert-danger {
   background: rgba(255, 242, 244, 0.96);
   border-color: rgba(214, 151, 162, 0.8);
   color: #5f1f25;
 }
+
 #flash-container .flash-message-content {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.4;
+  gap: 0.62rem;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
   min-width: 0;
   overflow: hidden;
 }
+
 #flash-container .flash-message-content i {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  font-size: 0.85rem;
+  font-size: 10px;
+  background: rgba(33, 151, 108, 0.17);
+  color: #1d8d67;
 }
-#flash-container .flash-alert-success .flash-message-content i {
-  background: rgba(16, 185, 129, 0.18);
-  color: #0b8f68;
-}
+
 #flash-container .flash-alert-danger .flash-message-content i {
   background: rgba(239, 68, 68, 0.14);
   color: #d93c4d;
 }
+
 #flash-container .flash-message-content span {
   display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 #flash-container .btn-close {
   opacity: 1;
-  margin-left: 0.4rem;
+  margin-left: 0.2rem;
   flex-shrink: 0;
-  width: 2.1rem;
-  height: 2.1rem;
-  border: 1px solid rgba(49, 74, 67, 0.35);
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(49, 74, 67, 0.4);
   border-radius: 50%;
   background: transparent;
   filter: none;
   padding: 0;
   position: relative;
 }
+
 #flash-container .btn-close::before,
 #flash-container .btn-close::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 12px;
-  height: 1.8px;
+  width: 10px;
+  height: 1.7px;
   background: rgba(26, 43, 36, 0.8);
   border-radius: 999px;
 }
+
 #flash-container .btn-close::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
+
 #flash-container .btn-close::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+
 #flash-container .btn-close:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 576px) {
