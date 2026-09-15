@@ -10,12 +10,20 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing");
 const { authorize } = require("passport");
 const listingController = require("../controllers/listingController");
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 // INDEX + CREATE
 router
   .route("/")
   .get(wrapAsync(listingController.index))
-  .post(isLoggedIn, validateListing, wrapAsync(listingController.create));
+  .post(
+    isLoggedIn,
+    upload.single("listing[image][file]"),
+    validateListing,
+    wrapAsync(listingController.create),
+  );
 
 // NEW
 router.get("/new", isLoggedIn, wrapAsync(listingController.newForm));
@@ -32,7 +40,17 @@ router.get(
 router
   .route("/:id")
   .get(wrapAsync(listingController.show))
-  .put(isLoggedIn, isListingOwner, validateListing, wrapAsync(listingController.update))
-  .delete(isLoggedIn, isListingOwner, wrapAsync(listingController.deleteListing));
+  .put(
+    isLoggedIn,
+    isListingOwner,
+    upload.single("listing[image][file]"),
+    validateListing,
+    wrapAsync(listingController.update),
+  )
+  .delete(
+    isLoggedIn,
+    isListingOwner,
+    wrapAsync(listingController.deleteListing),
+  );
 
 module.exports = router;

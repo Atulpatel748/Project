@@ -3,7 +3,13 @@
 <div class="container mt-4">
   <div class="card p-4">
     <h3>Create a New Listing</h3>
-    <form method="POST" action="/listings" novalidate class="needs-validation">
+    <form
+      method="POST"
+      action="/listings"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3 text-center">
         <img
           id="imgPreview"
@@ -39,11 +45,21 @@
 
       <div class="mb-3">
         <label class="form-label">Image URL</label>
+
         <input
           name="listing[image][url]"
           id="imageUrlInput"
           placeholder="Enter image URL"
           type="text"
+          class="form-control"
+        />
+
+        <label class="form-label mt-3">Or Upload Image</label>
+
+        <input
+          name="listing[image][file]"
+          id="imageFileInput"
+          type="file"
           class="form-control"
         />
       </div>
@@ -82,7 +98,7 @@
             class="form-control"
             required
           />
-          <div class="invalid-feedback">Location should be valid! </div>
+          <div class="invalid-feedback">Location should be valid!</div>
         </div>
       </div>
 

@@ -30,7 +30,7 @@
     <!-- Image -->
     <div class="listing-image-wrapper">
       <img
-        src="<%= listing.image && listing.image.url ? listing.image.url : _ph() %>"
+        src="<%= transformedImageUrl ? transformedImageUrl : (listing.image && listing.image.url ? listing.image.url : _ph()) %>"
         class="listing-show-image"
         alt="<%= listing.title %>"
       />
