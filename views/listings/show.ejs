@@ -182,24 +182,28 @@
 
         <!-- Rating -->
         <div class="form-group rating-form-group">
-          <fieldset class="starability-checkmark" aria-label="Rating">
-            <input type="radio" id="rate5" name="review[rating]" value="5" required />
+          <fieldset class="rating-inputs">
+            <legend>Rating</legend>
+            <div class="rating-options">
+
+            <input type="radio" id="rate5" name="review[rating]" value="5" required aria-describedby="rating-feedback" />
             <label for="rate5" title="5 stars">5 stars</label>
 
-            <input type="radio" id="rate4" name="review[rating]" value="4" />
+            <input type="radio" id="rate4" name="review[rating]" value="4" required aria-describedby="rating-feedback" />
             <label for="rate4" title="4 stars">4 stars</label>
 
-            <input type="radio" id="rate3" name="review[rating]" value="3" />
+            <input type="radio" id="rate3" name="review[rating]" value="3" required aria-describedby="rating-feedback" />
             <label for="rate3" title="3 stars">3 stars</label>
 
-            <input type="radio" id="rate2" name="review[rating]" value="2" />
+            <input type="radio" id="rate2" name="review[rating]" value="2" required aria-describedby="rating-feedback" />
             <label for="rate2" title="2 stars">2 stars</label>
 
-            <input type="radio" id="rate1" name="review[rating]" value="1" />
+            <input type="radio" id="rate1" name="review[rating]" value="1" required aria-describedby="rating-feedback" />
             <label for="rate1" title="1 star">1 star</label>
+            </div>
           </fieldset>
 
-          <div class="invalid-feedback">
+          <div id="rating-feedback" class="invalid-feedback">
             Please select a rating.
           </div>
         </div><br>
@@ -235,6 +239,17 @@
               Be the first to review this place
             <% } %>
           </p>
+
+          <% if (reviewCount) { %>
+            <div class="basic-rating-row" aria-label="Average rating: <%= avgRating.toFixed(1) %> out of 5">
+              <span class="basic-rating-label"><%= avgRating.toFixed(1) %>/5</span>
+              <div class="average-stars" aria-hidden="true">
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <span class="star <%= i <= roundedRating ? "filled" : "" %>"><%= i <= roundedRating ? "★" : "☆" %></span>
+                <% } %>
+              </div>
+            </div>
+          <% } %>
 
         </div>
 
