@@ -96,7 +96,7 @@ app.all("/{*splat}", (req, res, next) => {
 });
 
 // Error Handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
 
   console.error(err);
