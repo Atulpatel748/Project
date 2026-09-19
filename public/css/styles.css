@@ -567,53 +567,11 @@ footer a:hover {
   margin-bottom: 18px;
 }
 
-.rating-inputs {
-  width: max-content;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.rating-options {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  width: max-content;
-}
-
-.rating-inputs legend {
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-}
-
-.rating-inputs input {
-  position: absolute;
-  opacity: 0;
-}
-
-.rating-inputs label {
-  color: #bbb;
-  cursor: pointer;
-  font-size: 0;
-  line-height: 1;
-}
-
-.rating-inputs label::before {
-  content: "★";
-  font-size: 2rem;
-}
-
-.rating-inputs input:checked ~ label,
-.rating-inputs label:hover,
-.rating-inputs label:hover ~ label {
-  color: #ffc107;
-}
-
-.rating-inputs input:focus-visible + label {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
+.form-group .starability-checkmark > label {
+  margin-bottom: 0;
+  font-size: 0.1em;
+  font-weight: normal;
+  color: transparent;
 }
 
 .submit-review-btn {
