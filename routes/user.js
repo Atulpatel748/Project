@@ -1,6 +1,5 @@
 const express = require("express");
 
-const User = require("../models/user");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
 const { saveReturnTo } = require("../middleware");

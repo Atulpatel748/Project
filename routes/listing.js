@@ -5,10 +5,7 @@ const {
   isListingOwner,
   validateListing,
 } = require("../middleware.js");
-const ExpressError = require("../utils/ExpressError.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const Listing = require("../models/listing");
-const { authorize } = require("passport");
 const listingController = require("../controllers/listingController");
 const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
